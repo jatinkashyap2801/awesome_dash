@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="awesome_dashboard.AwesomeDashboard">
+        <div class="awesome_dashboard_o_action">
+            <Layout className="'awesome_dashboard_o_dashboard h-100'" display="{ controlPanel: { 'top-right': false, 'bottom-right': false } }">
+                <div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div style="display:flex;justify-content:space-between;">
+                        <button type="button" class="btn awesome_dashboard_btn_primary btn-primary awesome_dashboard_btn" t-on-click="fetchPartners">
+                            Fetch Record
+                        </button>
+                        <input type="search" t-model="search_data.search_text" placeholder="Search here..." style="width: calc(30% - 24px); padding: 4px; border: 2px solid #007bff; border-radius: 25px; transition: border-color 0.3s, box-shadow 0.3s;" />
+
+                        <button type="button" t-on-click="search_form" class="btn awesome_dashboard_btn_primary btn-primary awesome_dashboard_btn">Search</button>
+
+                        <button type="button" class="btn awesome_dashboard_btn_primary btn-primary awesome_dashboard_btn" t-on-click="new_record">
+                            <t t-out="text.new_text" />
+                        </button>
+                    </div>
+                    <br/>
+                    <br/>
+                    <t t-if="new_state.new_edit">
+                        <form>
+                            <h2 class="create_new_record">Create New Record</h2>
+                            <input style="width: calc(100% - 24px); padding: 12px; margin: 10px 0; border: 2px solid #007bff; border-radius: 25px; transition: border-color 0.3s, box-shadow 0.3s;" class="text awesome_dashboard_text " type="text" t-model="formData.name" placeholder="Name" />
+
+                            <input type="email" t-model="formData.email" placeholder="Email" />
+
+                            <div style="display:flex; padding-right:2px;">
+                                <button type="button" class="btn awesome_dashboard_btn_primary btn-primary awesome_dashboard_btn" t-on-click="createPartner">
+                                    Create Record
+                                </button>
+                            </div>
+                        </form>
+                    </t>
+                </div>
+
+                <div class="d-flex awesome_flex flex-wrap">
+                    <t t-foreach="newresult" t-as="partner" t-key="partner.id">
+                        <DashboardItem>
+                            <div style="padding: 15px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: transform 0.2s; text-align: center;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
+
+                                <h5 style="margin: 0; color: #343a40;">
+                                    <t t-out="partner.name" />
+                                </h5>
+
+                                <p style="color: #6c757d; margin: 5px 0;">
+                                    <t t-out="partner.email" />
+                                </p>
+
+                                <div style="margin-top: 10px;">
+                                    <button t-on-click="toggleedit" t-att-data-partner-id="partner.id" class="btn awesome_dashboard_btn_secondary btn-secondary awesome_dashboard_btn" style="margin-right: 5px; padding: 10px 15px; border-radius: 25px; transition: background-color 0.3s;">
+                                        Edit
+                                    </button>
+
+                                    <button t-on-click="deletePartner" t-att-data-partner-id="partner.id" class="btn btn-danger awesome_dashbboard_btn_danger awesome_dashboard_btn" style="padding: 10px 15px; border-radius: 25px; transition: background-color 0.3s;">
+                                        Delete
+                                    </button>
+                                </div>
+
+                                <t t-if="editingPartnerId === partner.id">
+                                    <input style="width: calc(100% - 24px); padding: 12px; margin: 10px 0; border: 2px solid #007bff; border-radius: 25px; transition: border-color 0.3s, box-shadow 0.3s;" class="text awesome_dashboard_text " type="text" t-model="updatedData.name" placeholder="Name" />
+
+                                    <input type="email" t-model="updatedData.email" placeholder="Email" />
+
+                                    <div style="margin-top: 10px;">
+                                        <button t-on-click="updatePartner" t-att-data-partner-id="partner.id" class=" awesome_dashboard_btn btn awesome_dashboard_btn_secondary btn-secondary" style="margin-right: 5px; padding: 10px 15px; border-radius: 25px; transition: background-color 0.3s;">
+                                            Save
+                                        </button>
+
+                                        <button t-on-click="cancelEdit" class="btn btn-danger awesome_dashbboard_btn_danger awesome_dashboard_btn " style="padding: 10px 15px; border-radius: 25px; transition: background-color 0.3s;">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </t>
+                            </div>
+                        </DashboardItem>
+                    </t>
+                </div>
+            </Layout>
+        </div>
+    </t>
+</templates>
